@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <ul>
+            {% for x in range(1) %}
+            <li>{{ session['user_id'] }}</li>
+            {% endfor %}
+        </ul>
+        <a class="btn btn-primary btn-md" href="{{url_for('logout')}}" role="button">Logout</a>
+{% endblock %}
