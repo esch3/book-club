@@ -1,3 +1,7 @@
 body {
     background-image: url("../static/backgrounds-blank-blue-953214.jpg");
     background-color: #cccccc; }
+
+.input-padding {
+     margin-bottom: 10px;
+}

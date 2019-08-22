@@ -78,7 +78,7 @@ def login():
             session.clear()
             session['user_id'] = user['user_id']
             session['name'] = username
-            return redirect(url_for('books'))
+            return redirect(url_for('search'))
 
     return render_template('login.html', message=error)
 
@@ -88,21 +88,28 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-# main page
+# main page, search for books
 @app.route('/books', methods=["GET", "POST"])
-def books():
+def search():
     msg = f"You are logged in as {session['name']}"
     if request.method == 'POST':
         title = request.form.get('title')
         book = None
-        book = db.execute(
-            "SELECT * FROM books WHERE title = :title", {'title': title}).fetchone()
+        book = db.execute("SELECT * FROM books WHERE title = :title", {
+        'title': title
+        }).fetchone()
         if book is not None:
             print(book)
-            return render_template('books.html', book=book, message=msg)
+            return render_template('review.html', book=book, message=msg)
         else:
             book = ('Not found')
             print(book)
             return render_template('books.html', book=book, message=msg)
 
     return render_template('books.html', message=msg)
+
+# book review page
+@app.route('/review/1', methods=["GET", "POST"])
+def review():
+    return render_template('review.html')
+    
