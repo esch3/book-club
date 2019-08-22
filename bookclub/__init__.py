@@ -44,7 +44,7 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
-        elif db.execute('SELECT id FROM users WHERE name = :username',
+        elif db.execute('SELECT user_id FROM users WHERE name = :username',
                         {'username': username}).rowcount != 0:
             error = f'User {username} is already registered.'
 
@@ -76,7 +76,8 @@ def login():
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user['user_id']
+            session['name'] = username
             return redirect(url_for('books'))
 
     return render_template('login.html', message=error)
@@ -84,13 +85,24 @@ def login():
 # logout
 @app.route('/logout')
 def logout():
-    for key in session.keys():
-        print(key, session[key])
     session.clear()
     return redirect(url_for('login'))
-
 
 # main page
 @app.route('/books', methods=["GET", "POST"])
 def books():
-    return render_template('books.html')
+    msg = f"You are logged in as {session['name']}"
+    if request.method == 'POST':
+        title = request.form.get('title')
+        book = None
+        book = db.execute(
+            "SELECT * FROM books WHERE title = :title", {'title': title}).fetchone()
+        if book is not None:
+            print(book)
+            return render_template('books.html', book=book, message=msg)
+        else:
+            book = ('Not found')
+            print(book)
+            return render_template('books.html', book=book, message=msg)
+
+    return render_template('books.html', message=msg)

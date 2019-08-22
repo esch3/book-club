@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <ul>
-            {% for x in range(1) %}
-            <li>{{ session['user_id'] }}</li>
-            {% endfor %}
-        </ul>
-        <a class="btn btn-primary btn-md" href="{{url_for('logout')}}" role="button">Logout</a>
+    <div class="container">
+        <form action="{{url_for('books')}}" method="post">
+            <input name="title" class="form-control" style="margin-bottom: 10px;" type="text" placeholder="Enter book title" aria-label="Search">
+            <button class="btn btn-primary btn-md" type="submit">Search</button>
+            <a class="btn btn-secondary btn-md" href="{{url_for('logout')}}" role="button">Logout</a>
+        </form>
+    </div>
+    <div class="container">
+        {% if book == 'Not found' %}
+            <h1>{{ book }}</h1>
+        {% else %}
+            <ul>
+                {% for field in book %}
+                    <li><h3>{{ field }}</h3></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
 {% endblock %}
