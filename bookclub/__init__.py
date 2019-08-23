@@ -191,8 +191,7 @@ def review(book_id):
                     VALUES (:review_id, :isbn, :review, :rating)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,
                     {"review_id": session['user_id'], "isbn": book_id, "review": review, "rating": rating})
                 db.commit()
-
-    return redirect(url_for('review', book_id=book_id)
+    return redirect(url_for('review', book_id=book_id))
 
 # error handler for API call
 @app.errorhandler(404)
@@ -206,23 +205,10 @@ def json_response(isbn):
     average_rating = '0'
     book = db.execute("SELECT * FROM books WHERE isbn=:isbn",
     {"isbn": isbn}).fetchone()
+    # if book not found, return 404 error page
     if book is None:
         abort(404, description="Resource not found")
-
-    # if book not found, return empty JSON book object
-    '''
-    if book is None:
-        d = {
-            "title": None,
-            "author": None,
-            "year": None,
-            "isbn": isbn,
-            "review_count": None,
-            "average_score": None
-        }
-        return jsonify(d)
-    '''
-    # try to update book object with review count and ratings from Goodread's API
+    # get book from Goodread's API
     try:
         res = requests.get(
             "https://www.goodreads.com/book/review_counts.json",
