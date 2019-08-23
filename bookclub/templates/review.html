@@ -3,37 +3,66 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <span>{{ book['title'] }}</span>
+        <p><h1>{{ book['title'] }}</h1></p>
     </div>
     <div class="row">
-        by: <span>{{ book['author'] }}</span>
+        <h3>by: {{ book['author'] }}</h3>
     </div>
     <div class="row">
-        <span>{{ book['year'] }}</span>
+        Year: {{ book['year'] }}
     </div>
     <div class="row">
-        <span>{{ book['isbn'] }}</span>
+        ISBN: {{ book['isbn'] }}
     </div>
     <div class="row">
-        Review count: <span>{{ book['review_count'] }}</span>
+        Rating count: {{ book['review_count'] }}
     </div>
     <div class="row">
-        Average rating: <span>{{ book['average_rating'] }}</span>
+        Average rating: {{ book['average_rating'] }}
     </div>
-    <div class="row">
-        <ul>
-            {% for review in reviews %}
-            <li>
-                <h3>{{ review[0], review[1] }}</h3>
-            </li>
-            {% endfor %}
+    <div style="margin-top: 10px;">
+        <h2>Reviews</h2>
+    </div>
+    <div>
+        <ul> 
+        {% for review in reviews %}
+            <li>{{ review[1] + ' wrote:  ' + review[0] }}</li>
+        {% endfor %}
         </ul>
     </div>
     <form action="{{ url_for('review', book_id=book[0])}}" method="post">
         <div class="form-group shadow-textarea">
             <label for="exampleFormControlTextarea6">Post your review</label>
-            <textarea name="review" class="form-control z-depth-1 input-padding" id="exampleFormControlTextarea6" rows="3"
+            <textarea name="review" class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
                 placeholder="Write something here..."></textarea>
+        </div>
+        <label>Rating</label>
+        <!-- Default inline 1-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline1" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline1">1</label>
+        </div>                
+        <!-- Default inline 2-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline2" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline2">2</label>
+        </div>  
+        <!-- Default inline 3-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline3" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline3">3</label>
+        </div>
+        <!-- Default inline 4-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline4" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline4">4</label>
+         </div>
+         <!-- Default inline 5-->
+         <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="defaultInline5" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline5">5</label>
+        </div>
+        <div>
             <button class="btn btn-primary btn-md" type="submit">Submit review</button>
             <a class="btn btn-secondary btn-md" href="{{url_for('search')}}" role="button">Search</a>
             <a class="btn btn-secondary btn-md" href="{{url_for('logout')}}" role="button">Logout</a>

@@ -1,4 +1,4 @@
-import os, csv, requests, json
+import os, csv
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -56,32 +56,14 @@ def main():
         for row in full_book_list:
             print('importing row ', row_count)
             row_count += 1
-            work_ratings_count = 0
-            average_rating = '0'
-            # goodreads API to get ratings_count and average_rating for reviews table
-            try:
-                res = requests.get(
-                    "https://www.goodreads.com/book/review_counts.json",
-                    params={
-                    "key": key,
-                    "isbns": row[0]
-                })     
-                work_ratings_count = res.json()['books'][0]['work_ratings_count']
-                average_rating = res.json()['books'][0]['average_rating']
-            except json.JSONDecodeError as err:
-                print('error', count)  
-                count += 1
-
             db.execute(
-                "INSERT INTO books (isbn, title, author, year, review_count, average_rating) \
-                VALUES (:isbn, :title, :author, :year, :review_count, :average_rating)",
+                "INSERT INTO books (isbn, title, author, year) \
+                VALUES (:isbn, :title, :author, :year)",
                 {
                     'isbn': row[0], 
                     'title': row[1], 
                     'author': row[2], 
-                    'year': row[3],
-                    'review_count': work_ratings_count,
-                    'average_rating': average_rating
+                    'year': row[3]
                 }
             )
     db.commit()
