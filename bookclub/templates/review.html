@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--main book content-->
+<div class="container">
+    <div class="row">
+        <p><h1>{{ book['title'] }}</h1></p>
+    </div>
+    <div class="row">
+        <h3>by: {{ book['author'] }}</h3>
+    </div>
+    <div class="row">
+        Year: {{ book['year'] }}
+    </div>
+    <div class="row">
+        ISBN: {{ book['isbn'] }}
+    </div>
+    <div class="row">
+        Rating count: {{ book['review_count'] }}
+    </div>
+    <div class="row">
+        Average rating: {{ book['average_rating'] }}
+    </div>
+    <div style="margin-top: 10px;">
+        <h2>Reviews</h2>
+    </div>
+    <div>
+        <ul> 
+        {% for review in reviews %}
+            {% if review[2] %}
+            <li>{{ review[1] + ' wrote:  ' + review[0] + ' and gave ' + review[2] + ' star(s).' }}</li>
+            {% else %}
+            <li>{{ review[1] + ' wrote:  ' + review[0] }}</li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+    <!--Form for review and rating submission-->
+    <form action="{{ url_for('review', book_id=book[0])}}" method="post">
+        <div class="form-group shadow-textarea">
+            <label for="exampleFormControlTextarea6">Post your review</label>
+            <textarea name="review" class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
+                placeholder="Write something here..."></textarea>
+        </div>
+        <input name="rating" class="form-control input-padding" type="number" min="1" max="5"
+            placeholder="Enter rating here, 1-5" aria-label="Search">
+        <div>
+            <button class="btn btn-primary btn-md" type="submit">Submit review</button>
+            <a class="btn btn-secondary btn-md" href="{{url_for('search')}}" role="button">Search</a>
+            <a class="btn btn-secondary btn-md" href="{{url_for('logout')}}" role="button">Logout</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

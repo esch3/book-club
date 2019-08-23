@@ -1,10 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <!--content for book search page-->
+    <div class="container">
+        {% if books == None %}
+        <h1>{{ 'Not found' }}</h1>
+        {% else %}
         <ul>
-            {% for x in range(1) %}
-            <li>{{ session['user_id'] }}</li>
+            {% for book in books %}
+            <li><a href="{{ url_for('review', book_id=book['book_id']) }}">{{ book['title'] + ' by ' + book['author'] }}</a></li>
             {% endfor %}
         </ul>
-        <a class="btn btn-primary btn-md" href="{{url_for('logout')}}" role="button">Logout</a>
+        {% endif %}
+        <form action="{{url_for('search')}}" method="post">
+            <input name="query" class="form-control input-padding" type="text" placeholder="Enter book title, author, or isbn" aria-label="Search">
+            <button class="btn btn-primary btn-md" type="submit">Search</button>
+            <a class="btn btn-secondary btn-md" href="{{ url_for('logout') }}" role="button">Logout</a>
+        </form>
+    </div>
 {% endblock %}
