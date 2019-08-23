@@ -89,27 +89,49 @@ def logout():
     return redirect(url_for('login'))
 
 # main page, search for books
+# @@@ TODO: Search by title, isbn, author @@@ #
 @app.route('/books', methods=["GET", "POST"])
 def search():
     msg = f"You are logged in as {session['name']}"
     if request.method == 'POST':
         title = request.form.get('title')
         book = None
+        reviews = None
         book = db.execute("SELECT * FROM books WHERE title = :title", {
         'title': title
         }).fetchone()
         if book is not None:
-            print(book)
-            return render_template('review.html', book=book, message=msg)
+            reviews = db.execute("SELECT review, name FROM reviews JOIN users ON \
+                (reviews.review_id = users.user_id) WHERE isbn = :book_id",
+                {"book_id": book[0]}).fetchall()
+            return render_template('review.html', reviews=reviews, book=book, message=msg)
         else:
             book = ('Not found')
-            print(book)
             return render_template('books.html', book=book, message=msg)
 
     return render_template('books.html', message=msg)
 
 # book review page
-@app.route('/review/1', methods=["GET", "POST"])
-def review():
-    return render_template('review.html')
-    
+# @@@ TODO: change name of isbn column to book_id in reviews @@@@ #
+@app.route('/review/<book_id>', methods=["GET", "POST"])
+def review(book_id):
+    if request.method == 'POST':
+        review = request.form.get('review')
+        if review is not None:
+            # check to see if user already posted a review
+            if db.execute("SELECT review_id, isbn FROM reviews WHERE review_id = :user_id AND isbn = :book_id",
+                {"user_id": session["user_id"], "book_id": book_id}).rowcount != 0:
+                return render_template(
+                    'books.html',
+                    message=
+                    f'Sorry {session["name"]}. You have already posted a review for this book. \
+                        Try searching for another book.'
+                )
+            else:
+                print("no reviews yet")
+                db.execute("INSERT INTO reviews (review_id, isbn, review) \
+                    VALUES (:review_id, :isbn, :review)"                                                 ,
+                    {"review_id": session['user_id'], "isbn": book_id, "review": review})
+                db.commit()
+           
+    return render_template('books.html', message=f'Thank you {session["name"]}. Your review posted.')

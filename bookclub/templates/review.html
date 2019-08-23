@@ -3,9 +3,6 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        {% if book == 'Not found' %}
-        <h1>{{ book }}</h1>
-        {% else %}
         <ul>
             {% for field in book %}
             <li>
@@ -13,12 +10,20 @@
             </li>
             {% endfor %}
         </ul>
-        {% endif %}
     </div>
-    <form action="{{url_for('review')}}" method="post">
+    <div class="row">
+        <ul>
+            {% for review in reviews %}
+            <li>
+                <h3>{{ review[0], review[1] }}</h3>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <form action="{{ url_for('review', book_id=book[0])}}" method="post">
         <div class="form-group shadow-textarea">
             <label for="exampleFormControlTextarea6">Post your review</label>
-            <textarea name="review-text" class="form-control z-depth-1 input-padding" id="exampleFormControlTextarea6" rows="3"
+            <textarea name="review" class="form-control z-depth-1 input-padding" id="exampleFormControlTextarea6" rows="3"
                 placeholder="Write something here..."></textarea>
             <button class="btn btn-primary btn-md" type="submit">Submit review</button>
             <a class="btn btn-secondary btn-md" href="{{url_for('search')}}" role="button">Search</a>
