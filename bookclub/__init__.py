@@ -192,7 +192,7 @@ def review(book_id):
                     {"review_id": session['user_id'], "isbn": book_id, "review": review, "rating": rating})
                 db.commit()
 
-    return render_template('books.html', message=f'Thank you {session["name"]}. Your review posted.')
+    return redirect(url_for('review', book_id=book_id))
 
 # error handler for API call
 @app.errorhandler(404)
