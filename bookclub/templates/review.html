@@ -3,13 +3,22 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <ul>
-            {% for field in book %}
-            <li>
-                <h3>{{ field }}</h3>
-            </li>
-            {% endfor %}
-        </ul>
+        <span>{{ book['title'] }}</span>
+    </div>
+    <div class="row">
+        by: <span>{{ book['author'] }}</span>
+    </div>
+    <div class="row">
+        <span>{{ book['year'] }}</span>
+    </div>
+    <div class="row">
+        <span>{{ book['isbn'] }}</span>
+    </div>
+    <div class="row">
+        Review count: <span>{{ book['review_count'] }}</span>
+    </div>
+    <div class="row">
+        Average rating: <span>{{ book['average_rating'] }}</span>
     </div>
     <div class="row">
         <ul>

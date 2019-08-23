@@ -94,20 +94,32 @@ def logout():
 def search():
     msg = f"You are logged in as {session['name']}"
     if request.method == 'POST':
-        title = request.form.get('title')
-        book = None
+        query = request.form.get('query')
+        result = None
         reviews = None
-        book = db.execute("SELECT * FROM books WHERE title = :title", {
-        'title': title
-        }).fetchone()
-        if book is not None:
-            reviews = db.execute("SELECT review, name FROM reviews JOIN users ON \
-                (reviews.review_id = users.user_id) WHERE isbn = :book_id",
-                {"book_id": book[0]}).fetchall()
-            return render_template('review.html', reviews=reviews, book=book, message=msg)
+        # check if query is an empty string, if so display "Not found"
+        if query == '':
+            return render_template('books.html', books=result, message=msg)
+        # add wildcard for simliar search results to query
+        query += '%'
+        result = db.execute(
+            "SELECT DISTINCT * FROM books WHERE LOWER(author) \
+            LIKE LOWER(:query) OR LOWER(title) LIKE LOWER(:query) \
+            OR LOWER(isbn) LIKE LOWER(:query);"                                                                                                                                                                                                                                                                                          , {
+                'query': query
+            }).fetchall()
+        # check if query result contains any books
+        if len(result) == 0:
+            result = None
+            return render_template('books.html', books=result, message=msg)
+        # check if query is an exact match, if so redirect to reviews page
+        elif len(result) == 1:
+            book_id = result[0][0]
+            return redirect(url_for('review', book_id=book_id))
+        # display list of possible matches    
         else:
-            book = ('Not found')
-            return render_template('books.html', book=book, message=msg)
+            msg = f"{session['name']}, did you mean?"
+            return render_template('books.html', books=result, message=msg)
 
     return render_template('books.html', message=msg)
 
@@ -115,6 +127,19 @@ def search():
 # @@@ TODO: change name of isbn column to book_id in reviews @@@@ #
 @app.route('/review/<book_id>', methods=["GET", "POST"])
 def review(book_id):
+    msg = f"You are logged in as {session['name']}"
+
+    # if link to book is followed from search page via "GET"
+    if request.method == 'GET':
+        book = db.execute("SELECT * FROM books WHERE book_id = :book_id",
+            {"book_id": book_id}).fetchone()
+        reviews = db.execute(
+            "SELECT review, name FROM reviews JOIN users ON \
+            (reviews.review_id = users.user_id) WHERE isbn = :book_id"                                                                                                                                                                                                                  , {
+            "book_id": book_id
+        }).fetchall()
+        return render_template('review.html', reviews=reviews, book=book, message=msg)
+
     if request.method == 'POST':
         review = request.form.get('review')
         if review is not None:
@@ -130,8 +155,8 @@ def review(book_id):
             else:
                 print("no reviews yet")
                 db.execute("INSERT INTO reviews (review_id, isbn, review) \
-                    VALUES (:review_id, :isbn, :review)"                                                 ,
+                    VALUES (:review_id, :isbn, :review)"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ,
                     {"review_id": session['user_id'], "isbn": book_id, "review": review})
                 db.commit()
-           
+
     return render_template('books.html', message=f'Thank you {session["name"]}. Your review posted.')
