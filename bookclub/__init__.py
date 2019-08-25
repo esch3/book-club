@@ -91,7 +91,7 @@ def login():
 @app.route('/logout')
 def logout():
     # log out of app - stop sqlalchemy engine, clear session data and redirect user to login page
-    db.close()
+    db.remove()
     session.clear()
     return redirect(url_for('login'))
 
@@ -103,7 +103,6 @@ def search():
     if request.method == 'POST':
         query = request.form.get('query')
         result = None
-        reviews = None
         # check if query is an empty string, if so display "Not found"
         if query == '':
             return render_template('books.html', books=result, message=msg)
