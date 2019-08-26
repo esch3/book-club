@@ -12,7 +12,7 @@ This project is coded in Python, using Flask microframework as web service, Post
 
 # Installation
 This installation method is a demo on how to hit the ground running and serve external clients on port 80 for motivation. 
-1. <a href="https://aws.amazon.com/ec2/getting-started/">Spin up an EC2 Ubuntu Server.</a>\
+1. <a href="https://aws.amazon.com/ec2/getting-started/">Spin up an EC2 Ubuntu Server.</a> 
 2. Configure security group to allow hosts on 80.
 3. Log into ubuntu server.
 4. Type the following commands.
