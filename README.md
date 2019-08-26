@@ -1,5 +1,5 @@
 # Bookclub
-An app that allows user to read and create book reviews.
+An app that allows users to read and create book reviews.
 
 # Motivation
 The motivation for building this project is give the user an easy to use, front end to a database that contains over 5000 popular books, along with their average rating and any reviews left on the app by users of Bookclub.
