@@ -24,11 +24,13 @@ $ cd book-club
 $ pip3 install -e .  
 $ flask run  
   
-5. Type the DNS or IP of your instance into your browser and check out the Bookclub!  
+5. Type the DNS or IP of your instance into your browser and check out the Bookclub!
+
+There is also a database import program found in 'import.py', that imports the database schema to Heroku, and loads the book data found in 'books.csv' into the database. This is for educational purposes only as it is separate from the app itself, but is included because it is a necessary dependency of the app. If you wish to utilize your own database, set your 'DATABASE_URL' environment variable to your database before running 'import.'
 
 
 # API Reference
-<a href="https://www.goodreads.com/api">Goodreads API</a> is implemented in order to get number of ratings and average rating, to give the reader a quick idea of how popular a given book is.
+<a href="https://www.goodreads.com/api">Goodreads API</a> is implemented in order to get number of ratings and average rating, to give the reader a quick idea of how popular a given book is. Bookclub also has an API of it's own which can be found by following the '/api/<isbn>' URL. 
 
 # How to use
 1. Register as a new user
@@ -38,6 +40,7 @@ $ flask run
 5. The user can then follow a link to a book's page, where the book's title, author, ISBN, year of publication, number of ratings, and average rating are displayed. 
 6. Reviews are also displayed, and the user has the option of leaving at most one review and rating. 
 7. The user can then either search for another book, or logout of the app.
+8. Developer's can access the Bookclub API by following the '/api/<isbn>', where book info will be returned in JSON format or a 404 error if the book is not found.
 
 # Contribute
 You can contribute to the page or add resources by following these <a href="https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md">contributing guideline</a>. Thanks!
