@@ -1,6 +1,0 @@
-'pip3', 
-'flask',
-'flask_session', 
-'sqlalchemy', 
-'psycopg2-binary',
-'python-dotenv'
