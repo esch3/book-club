@@ -8,7 +8,7 @@ The motivation for building this project is give the user an easy to use, front 
 Version 1.0
 
 # Tech/Framework used
-This project is coded in Python, using Flask microframework as web service, Postgresql on the back end, and Bootsrap on the front end.
+This project is coded in Python, using Flask microframework as web service, Postgresql via Heroku on the back end, and Bootsrap on the front end.
 
 # Installation
 This installation method is a demo on how to hit the ground running and serve external clients on port 80 for motivation. 
@@ -24,7 +24,8 @@ $ cd book-club
 $ pip3 install -e .  
 $ flask run  
   
-5. Type the DNS or IP of your instance into your browser and check out the Bookclub!
+5. Type the DNS or IP of your instance into your browser and check out the Bookclub!  
+
 
 # API Reference
 <a href="https://www.goodreads.com/api">Goodreads API</a> is implemented in order to get number of ratings and average rating, to give the reader a quick idea of how popular a given book is.
