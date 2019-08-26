@@ -21,8 +21,8 @@ $ sudo apt update
 $ sudo apt install python3-pip  
 $ git clone https://github.com/tomeschnyc/book-club.git  
 $ cd book-club   
-$ pip3 install -e .  
-$ flask run  
+$ sudo pip3 install -e .  
+$ sudo flask run  
   
 5. Type the DNS or IP of your instance into your browser and check out the Bookclub!
 
