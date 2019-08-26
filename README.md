@@ -33,7 +33,7 @@ $ flask run
 1. Register as a new user
 2. User will be redirected to the login page.
 3. Login.
-4. Enter title, author or ISBN of a book. If an exact match is not found, the search will return a list of results of matches that are similar to the search query.
+4. Enter title, author or ISBN of a book. If an exact match is not found, the search will return a list of results of matches that are similar to the search query. If an exact match is found, the user will be routed directly to that book.
 5. The user can then follow a link to a book's page, where the book's title, author, ISBN, year of publication, number of ratings, and average rating are displayed. 
 6. Reviews are also displayed, and the user has the option of leaving at most one review and rating. 
 7. The user can then either search for another book, or logout of the app.
