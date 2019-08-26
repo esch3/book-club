@@ -26,7 +26,7 @@ $ flask run
   
 5. Type the DNS or IP of your instance into your browser and check out the Bookclub!
 
-There is also a database import program found in 'import.py', that imports the database schema to Heroku, and loads the book data found in 'books.csv' into the database. This is for educational purposes only as it is separate from the app itself, but is included because it is a necessary dependency of the app. If you wish to utilize your own database, set your 'DATABASE_URL' environment variable to your database before running 'import.'
+There is also a database import program found in 'import.py', that imports the database schema to Heroku, and loads the book data found in 'books.csv' into the database. This is for educational purposes only as it is separate from the app itself, and has already been ran, but is included because it is a necessary dependency of the app. If you wish to utilize your own database, set your 'DATABASE_URL' environment variable to your own database before running 'import.'
 
 
 # API Reference
