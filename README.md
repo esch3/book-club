@@ -8,7 +8,7 @@ The motivation for building this project is give the user an easy to use, front 
 Version 1.0
 
 # Tech/Framework used
-This project is coded in Python, using Flask microframework as web service, Postgresql via Heroku on the back end, and Bootsrap on the front end.
+This project is coded in Python, using Flask microframework as web service, Postgresql via Heroku on the back end, and Bootstrap on the front end.
 
 # Installation
 This installation method is a demo on how to hit the ground running and serve external clients on port 80 for motivation. 
